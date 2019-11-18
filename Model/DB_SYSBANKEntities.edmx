@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_SYSBANKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tbl_Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_ID" Type="int" />
+          <Property Name="IBAN" Type="nvarchar" MaxLength="20" />
+          <Property Name="TotalBalance" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Tbl_Statement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IBANFrom" Type="nvarchar" MaxLength="20" />
+          <Property Name="IBANTo" Type="nvarchar" MaxLength="20" />
+          <Property Name="FullMoney" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Fee" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Deposit" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Withdraw" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Channel" Type="nvarchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="Req_No" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tbl_Transaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IBAN" Type="nvarchar" MaxLength="20" />
+          <Property Name="FullMoney" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Fee" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Deposit" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Withdraw" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="PrevBalance" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="int" />
+          <Property Name="Req_No" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tbl_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CitizenID" Type="nvarchar" MaxLength="20" />
+          <Property Name="PassportID" Type="nvarchar" MaxLength="20" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Tbl_Account_Tbl_User">
+          <End Role="Tbl_User" Type="Self.Tbl_User" Multiplicity="0..1" />
+          <End Role="Tbl_Account" Type="Self.Tbl_Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tbl_Account">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Statement_Tbl_User">
+          <End Role="Tbl_User" Type="Self.Tbl_User" Multiplicity="0..1" />
+          <End Role="Tbl_Statement" Type="Self.Tbl_Statement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tbl_Statement">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Transaction_Tbl_User">
+          <End Role="Tbl_User" Type="Self.Tbl_User" Multiplicity="0..1" />
+          <End Role="Tbl_Transaction" Type="Self.Tbl_Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tbl_Transaction">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_SYSBANKModelStoreContainer">
+          <EntitySet Name="Tbl_Account" EntityType="Self.Tbl_Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Statement" EntityType="Self.Tbl_Statement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Transaction" EntityType="Self.Tbl_Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_User" EntityType="Self.Tbl_User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Tbl_Account_Tbl_User" Association="Self.FK_Tbl_Account_Tbl_User">
+            <End Role="Tbl_User" EntitySet="Tbl_User" />
+            <End Role="Tbl_Account" EntitySet="Tbl_Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Statement_Tbl_User" Association="Self.FK_Tbl_Statement_Tbl_User">
+            <End Role="Tbl_User" EntitySet="Tbl_User" />
+            <End Role="Tbl_Statement" EntitySet="Tbl_Statement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Transaction_Tbl_User" Association="Self.FK_Tbl_Transaction_Tbl_User">
+            <End Role="Tbl_User" EntitySet="Tbl_User" />
+            <End Role="Tbl_Transaction" EntitySet="Tbl_Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_SYSBANKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tbl_Account">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_ID" Type="Int32" />
+          <Property Name="IBAN" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TotalBalance" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Tbl_User" Relationship="Self.FK_Tbl_Account_Tbl_User" FromRole="Tbl_Account" ToRole="Tbl_User" />
+        </EntityType>
+        <EntityType Name="Tbl_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CitizenID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PassportID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Tbl_Account" Relationship="Self.FK_Tbl_Account_Tbl_User" FromRole="Tbl_User" ToRole="Tbl_Account" />
+          <NavigationProperty Name="Tbl_Transaction" Relationship="DB_SYSBANKModel.FK_Tbl_Transaction_Tbl_User" FromRole="Tbl_User" ToRole="Tbl_Transaction" />
+          <NavigationProperty Name="Tbl_Statement" Relationship="DB_SYSBANKModel.FK_Tbl_Statement_Tbl_User" FromRole="Tbl_User" ToRole="Tbl_Statement" />
+        </EntityType>
+        <Association Name="FK_Tbl_Account_Tbl_User">
+          <End Role="Tbl_User" Type="Self.Tbl_User" Multiplicity="0..1" />
+          <End Role="Tbl_Account" Type="Self.Tbl_Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tbl_Account">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_SYSBANKEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tbl_Account" EntityType="Self.Tbl_Account" />
+          <EntitySet Name="Tbl_User" EntityType="Self.Tbl_User" />
+          <AssociationSet Name="FK_Tbl_Account_Tbl_User" Association="Self.FK_Tbl_Account_Tbl_User">
+            <End Role="Tbl_User" EntitySet="Tbl_User" />
+            <End Role="Tbl_Account" EntitySet="Tbl_Account" />
+          </AssociationSet>
+          <EntitySet Name="Tbl_Transaction" EntityType="DB_SYSBANKModel.Tbl_Transaction" />
+          <AssociationSet Name="FK_Tbl_Transaction_Tbl_User" Association="DB_SYSBANKModel.FK_Tbl_Transaction_Tbl_User">
+            <End Role="Tbl_User" EntitySet="Tbl_User" />
+            <End Role="Tbl_Transaction" EntitySet="Tbl_Transaction" />
+          </AssociationSet>
+          <EntitySet Name="Tbl_Statement" EntityType="DB_SYSBANKModel.Tbl_Statement" />
+          <AssociationSet Name="FK_Tbl_Statement_Tbl_User" Association="DB_SYSBANKModel.FK_Tbl_Statement_Tbl_User">
+            <End Role="Tbl_User" EntitySet="Tbl_User" />
+            <End Role="Tbl_Statement" EntitySet="Tbl_Statement" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Tbl_Transaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IBAN" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FullMoney" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Fee" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Deposit" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Withdraw" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="PrevBalance" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="Req_No" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tbl_User" Relationship="DB_SYSBANKModel.FK_Tbl_Transaction_Tbl_User" FromRole="Tbl_Transaction" ToRole="Tbl_User" />
+        </EntityType>
+        <Association Name="FK_Tbl_Transaction_Tbl_User">
+          <End Type="DB_SYSBANKModel.Tbl_User" Role="Tbl_User" Multiplicity="0..1" />
+          <End Type="DB_SYSBANKModel.Tbl_Transaction" Role="Tbl_Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tbl_Transaction">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tbl_Statement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IBANFrom" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IBANTo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FullMoney" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Fee" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Deposit" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Withdraw" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="Channel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="Int32" />
+          <Property Name="Req_No" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tbl_User" Relationship="DB_SYSBANKModel.FK_Tbl_Statement_Tbl_User" FromRole="Tbl_Statement" ToRole="Tbl_User" />
+        </EntityType>
+        <Association Name="FK_Tbl_Statement_Tbl_User">
+          <End Type="DB_SYSBANKModel.Tbl_User" Role="Tbl_User" Multiplicity="0..1" />
+          <End Type="DB_SYSBANKModel.Tbl_Statement" Role="Tbl_Statement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tbl_Statement">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_SYSBANKModelStoreContainer" CdmEntityContainer="DB_SYSBANKEntities">
+          <EntitySetMapping Name="Tbl_Account">
+            <EntityTypeMapping TypeName="DB_SYSBANKModel.Tbl_Account">
+              <MappingFragment StoreEntitySet="Tbl_Account">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="IBAN" ColumnName="IBAN" />
+                <ScalarProperty Name="TotalBalance" ColumnName="TotalBalance" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_User">
+            <EntityTypeMapping TypeName="DB_SYSBANKModel.Tbl_User">
+              <MappingFragment StoreEntitySet="Tbl_User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="CitizenID" ColumnName="CitizenID" />
+                <ScalarProperty Name="PassportID" ColumnName="PassportID" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Transaction">
+            <EntityTypeMapping TypeName="DB_SYSBANKModel.Tbl_Transaction">
+              <MappingFragment StoreEntitySet="Tbl_Transaction">
+                <ScalarProperty Name="Req_No" ColumnName="Req_No" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="PrevBalance" ColumnName="PrevBalance" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Withdraw" ColumnName="Withdraw" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="Fee" ColumnName="Fee" />
+                <ScalarProperty Name="FullMoney" ColumnName="FullMoney" />
+                <ScalarProperty Name="IBAN" ColumnName="IBAN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Statement">
+            <EntityTypeMapping TypeName="DB_SYSBANKModel.Tbl_Statement">
+              <MappingFragment StoreEntitySet="Tbl_Statement">
+                <ScalarProperty Name="Req_No" ColumnName="Req_No" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+                <ScalarProperty Name="Withdraw" ColumnName="Withdraw" />
+                <ScalarProperty Name="Deposit" ColumnName="Deposit" />
+                <ScalarProperty Name="Fee" ColumnName="Fee" />
+                <ScalarProperty Name="FullMoney" ColumnName="FullMoney" />
+                <ScalarProperty Name="IBANTo" ColumnName="IBANTo" />
+                <ScalarProperty Name="IBANFrom" ColumnName="IBANFrom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

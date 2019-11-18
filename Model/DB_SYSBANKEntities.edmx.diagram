@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7056d972f57745bdb41e1c8abcb87c50" Name="Diagram1">
+        <EntityTypeShape EntityType="DB_SYSBANKModel.Tbl_Account" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SYSBANKModel.Tbl_User" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <AssociationConnector Association="DB_SYSBANKModel.FK_Tbl_Account_Tbl_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DB_SYSBANKModel.Tbl_Transaction" Width="1.5" PointX="3" PointY="8.875" />
+        <AssociationConnector Association="DB_SYSBANKModel.FK_Tbl_Transaction_Tbl_User" />
+        <EntityTypeShape EntityType="DB_SYSBANKModel.Tbl_Statement" Width="1.5" PointX="3" PointY="13.875" />
+        <AssociationConnector Association="DB_SYSBANKModel.FK_Tbl_Statement_Tbl_User" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
